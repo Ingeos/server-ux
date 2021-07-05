@@ -11,6 +11,7 @@ setuptools.setup(
         'odoo14-addon-barcode_action',
         'odoo14-addon-base_cancel_confirm',
         'odoo14-addon-base_export_manager',
+        'odoo14-addon-base_import_security_group',
         'odoo14-addon-base_menu_visibility_restriction',
         'odoo14-addon-base_optional_quick_create',
         'odoo14-addon-base_revision',
@@ -26,6 +27,7 @@ setuptools.setup(
         'odoo14-addon-filter_multi_user',
         'odoo14-addon-mass_editing',
         'odoo14-addon-multi_step_wizard',
+        'odoo14-addon-sequence_check_digit',
         'odoo14-addon-sequence_reset_period',
     ],
     classifiers=[
