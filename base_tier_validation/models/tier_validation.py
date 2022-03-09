@@ -105,18 +105,24 @@ class TierValidation(models.AbstractModel):
         assert operator in ("=", "!="), "Invalid domain operator"
         assert value in (True, False), "Invalid domain value"
         pos = self.search([(self._state_field, "in", self._state_from)]).filtered(
-            lambda r: r.review_ids and r.validated == value
+            lambda r: r.validated
         )
-        return [("id", "in", pos.ids)]
+        if value:
+            return [("id", "in", pos.ids)]
+        else:
+            return [("id", "not in", pos.ids)]
 
     @api.model
     def _search_rejected(self, operator, value):
         assert operator in ("=", "!="), "Invalid domain operator"
         assert value in (True, False), "Invalid domain value"
         pos = self.search([(self._state_field, "in", self._state_from)]).filtered(
-            lambda r: r.review_ids and r.rejected == value
+            lambda r: r.rejected
         )
-        return [("id", "in", pos.ids)]
+        if value:
+            return [("id", "in", pos.ids)]
+        else:
+            return [("id", "not in", pos.ids)]
 
     @api.model
     def _search_reviewer_ids(self, operator, value):
@@ -193,19 +199,41 @@ class TierValidation(models.AbstractModel):
                 return False
         return True
 
+    def _check_tier_state_transition(self, vals):
+        """
+        Check we are in origin state and not destination state
+        """
+        self.ensure_one()
+        return getattr(self, self._state_field) in self._state_from and not vals.get(
+            self._state_field
+        ) in (self._state_to + [self._cancel_state])
+
     def write(self, vals):
-        for rec in self:
+        new_self = self
+        if (
+            "from_review_systray" in self.env.context
+            and "active_test" in self.env.context
+        ):
+            context = self.env.context.copy()
+            context.pop("active_test")
+            new_self = self.with_context(context)
+        for rec in new_self:
             if rec._check_state_conditions(vals):
                 if rec.need_validation:
                     # try to validate operation
                     reviews = rec.request_validation()
                     rec._validate_tier(reviews)
-                    if not self._calc_reviews_validated(reviews):
+                    if not new_self._calc_reviews_validated(reviews):
+                        pending_reviews = reviews.filtered(
+                            lambda r: r.status == "pending"
+                        ).mapped("name")
                         raise ValidationError(
                             _(
                                 "This action needs to be validated for at least "
-                                "one record. \nPlease request a validation."
+                                "one record. Reviews pending:\n - %s "
+                                "\nPlease request a validation."
                             )
+                            % "\n - ".join(pending_reviews)
                         )
                 if rec.review_ids and not rec.validated:
                     raise ValidationError(
@@ -216,15 +244,15 @@ class TierValidation(models.AbstractModel):
                     )
             if (
                 rec.review_ids
-                and getattr(rec, self._state_field) in self._state_from
-                and not vals.get(self._state_field)
-                in (self._state_to + [self._cancel_state])
+                and rec._check_tier_state_transition(vals)
                 and not rec._check_allow_write_under_validation(vals)
             ):
                 raise ValidationError(_("The operation is under validation."))
-        if vals.get(self._state_field) in self._state_from:
-            self.mapped("review_ids").unlink()
-        return super(TierValidation, self).write(vals)
+        if vals.get(new_self._state_field) in (
+            new_self._state_from + [new_self._cancel_state]
+        ):
+            new_self.mapped("review_ids").unlink()
+        return super(TierValidation, new_self).write(vals)
 
     def _check_state_conditions(self, vals):
         self.ensure_one()
