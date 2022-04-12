@@ -1,4 +1,5 @@
-[![Runbot Status](https://runbot.odoo-community.org/runbot/badge/flat/250/14.0.svg)](https://runbot.odoo-community.org/runbot/repo/github-com-oca-server-ux-250)
+
+[![Runboat](https://img.shields.io/badge/runboat-Try%20me-875A7B.png)](https://runboat.odoo-community.org/builds?repo=OCA/server-ux&target_branch=14.0)
 [![Build Status](https://travis-ci.com/OCA/server-ux.svg?branch=14.0)](https://travis-ci.com/OCA/server-ux)
 [![codecov](https://codecov.io/gh/OCA/server-ux/branch/14.0/graph/badge.svg)](https://codecov.io/gh/OCA/server-ux)
 [![Translation Status](https://translation.odoo-community.org/widgets/server-ux-14-0/-/svg-badge.svg)](https://translation.odoo-community.org/engage/server-ux-14-0/?utm_source=widget)
@@ -21,6 +22,7 @@ addon | version | maintainers | summary
 --- | --- | --- | ---
 [barcode_action](barcode_action/) | 14.0.1.0.1 |  | Allows to use barcodes as a launcher
 [base_cancel_confirm](base_cancel_confirm/) | 14.0.1.0.3 | [![kittiu](https://github.com/kittiu.png?size=30px)](https://github.com/kittiu) | Base Cancel Confirm
+[base_custom_filter](base_custom_filter/) | 14.0.1.0.0 | [![AshishHirapara](https://github.com/AshishHirapara.png?size=30px)](https://github.com/AshishHirapara) [![ForgeFlow](https://github.com/ForgeFlow.png?size=30px)](https://github.com/ForgeFlow) | Add custom filters in standard filters and group by dropdowns
 [base_export_manager](base_export_manager/) | 14.0.1.0.1 |  | Manage model export profiles
 [base_import_security_group](base_import_security_group/) | 14.0.1.0.0 |  | Group-based permissions for importing CSV files
 [base_menu_visibility_restriction](base_menu_visibility_restriction/) | 14.0.1.0.0 | [![victoralmau](https://github.com/victoralmau.png?size=30px)](https://github.com/victoralmau) | Restrict (with groups) menu visibilty
@@ -29,7 +31,7 @@ addon | version | maintainers | summary
 [base_search_custom_field_filter](base_search_custom_field_filter/) | 14.0.1.0.0 | [![pedrobaeza](https://github.com/pedrobaeza.png?size=30px)](https://github.com/pedrobaeza) | Add custom filters for fields via UI
 [base_substate](base_substate/) | 14.0.1.0.0 |  | Base Sub State
 [base_technical_features](base_technical_features/) | 14.0.1.1.1 |  | Access to technical features without activating debug mode
-[base_tier_validation](base_tier_validation/) | 14.0.2.9.1 | [![LoisRForgeFlow](https://github.com/LoisRForgeFlow.png?size=30px)](https://github.com/LoisRForgeFlow) | Implement a validation process based on tiers.
+[base_tier_validation](base_tier_validation/) | 14.0.2.10.0 | [![LoisRForgeFlow](https://github.com/LoisRForgeFlow.png?size=30px)](https://github.com/LoisRForgeFlow) | Implement a validation process based on tiers.
 [base_tier_validation_formula](base_tier_validation_formula/) | 14.0.2.0.1 |  | Formulas for Base tier validation
 [base_tier_validation_forward](base_tier_validation_forward/) | 14.0.1.0.2 | [![kittiu](https://github.com/kittiu.png?size=30px)](https://github.com/kittiu) | Forward option for base tiers
 [base_tier_validation_report](base_tier_validation_report/) | 14.0.1.0.0 | [![kittiu](https://github.com/kittiu.png?size=30px)](https://github.com/kittiu) | Reports related to tier validation
@@ -57,12 +59,11 @@ addon | version | maintainers | summary
 
 This repository is licensed under [AGPL-3.0](LICENSE).
 
-However, each module can have a totally different license, as long as they adhere to OCA
+However, each module can have a totally different license, as long as they adhere to Odoo Community Association (OCA)
 policy. Consult each module's `__manifest__.py` file, which contains a `license` key
 that explains its license.
 
 ----
-
 OCA, or the [Odoo Community Association](http://odoo-community.org/), is a nonprofit
 organization whose mission is to support the collaborative development of Odoo features
 and promote its widespread use.
